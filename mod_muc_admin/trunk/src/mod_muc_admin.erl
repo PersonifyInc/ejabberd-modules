@@ -376,7 +376,7 @@ create_room(Name, Host, ServerHost) ->
 					 default_room_options, []),
 
     %% Store the room on the server, it is not started yet though at this point
-    mod_muc:store_room(Host, Name, DefRoomOpts),
+    mod_muc:store_room(ServerHost, Host, Name, DefRoomOpts),
 
     %% Get all remaining mod_muc parameters that might be utilized
     Access = gen_mod:get_module_opt(ServerHost, mod_muc, access, all),
@@ -397,7 +397,8 @@ create_room(Name, Host, ServerHost) ->
 			  Name,
 			  HistorySize,
 			  RoomShaper,
-			  DefRoomOpts),
+			  DefRoomOpts,
+			  mod_muc),
 	    {atomic, ok} = register_room(Host, Name, Pid),
 	    ok;
 	_ ->
